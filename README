@@ -1,0 +1,14 @@
+
+BaiscAuth.Net
+=============
+
+
+A simple IHttpModule enabling custom HTTP Basic Authentication for ASP.NET (on both Win32/IIS & Mono).
+
+This work is derived from existing implementations found at:
+ - http://blog.smithfamily.dk/2008/08/27/ImplementingBasicAuthenticationInASPNET20.aspx
+ - http://www.codeproject.com/KB/aspnet/mybasicauthentication.aspx
+ - http://cacheandquery.com/blog/2011/03/customizing-asp-net-mvc-basic-authentication/
+
+Cheers
+Pablo
