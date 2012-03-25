@@ -19,6 +19,7 @@ namespace BasicAuthenticationModule
 	/// </remarks>
 	public class BasicAuthenticationModule : IHttpModule
 	{
+		private static object _lock = new object();
 		private static bool _initialized = false;
 		private HttpApplication _application = null;
 
@@ -39,22 +40,25 @@ namespace BasicAuthenticationModule
 		/// </summary>
 		private static void Initialize()
 		{
-			var provider = ConfigurationManager.AppSettings["BasicAuthenticationModule.AuthProvider"];
-
-			if (!string.IsNullOrEmpty(provider))
+			lock (_lock)
 			{
-				Type providerType = Type.GetType(provider, true);
-				AuthProvider = Activator.CreateInstance(providerType, false) as IAuthProvider;
+				var provider = ConfigurationManager.AppSettings["BasicAuthenticationModule.AuthProvider"];
+
+				if (!string.IsNullOrEmpty(provider))
+				{
+					Type providerType = Type.GetType(provider, true);
+					AuthProvider = Activator.CreateInstance(providerType, false) as IAuthProvider;
+				}
+
+				// Realm string..
+				if (string.IsNullOrEmpty(Realm))
+					Realm = ConfigurationManager.AppSettings["BasicAuthenticationModule.Realm"]; ;
+
+				if (string.IsNullOrEmpty(Realm))
+					Realm = System.Net.Dns.GetHostName();
+
+				_initialized = true;
 			}
-
-			// Realm string..
-			if (string.IsNullOrEmpty(Realm))
-				Realm = ConfigurationManager.AppSettings["BasicAuthenticationModule.Realm"]; ;
-			
-			if (string.IsNullOrEmpty(Realm))
-				Realm = System.Net.Dns.GetHostName();
-
-			_initialized = true;
 		}
 
 		public BasicAuthenticationModule()
