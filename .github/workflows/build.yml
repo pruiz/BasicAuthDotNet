@@ -32,8 +32,9 @@ jobs:
           $commitHash = "${{ github.sha }}"
           $commitCount = (git rev-list --count HEAD)
           $version = "1.1.$commitCount.$runNumber"
-          (Get-Content "Properties/AssemblyInfo.cs") -replace '0\.0\.0\.0', "$version" | Set-Content "Properties/AssemblyInfo.cs"
-          (Get-Content "Properties/AssemblyInfo.cs") -replace 'GIT_COMMIT', "$commitHash" | Set-Content "Properties/AssemblyInfo.cs"
+          $asipath = "BasicAuthenticationModule/Properties/AssemblyInfo.cs"
+          (Get-Content "$asipath") -replace '0\.0\.0\.0', "$version" | Set-Content "$asipath"
+          (Get-Content "$asipath") -replace 'GIT_COMMIT', "$commitHash" | Set-Content "$asipath"
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
