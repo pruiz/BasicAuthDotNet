@@ -25,15 +25,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-#      - name: Calculate version
-#        id: calculate_version
-#        run: |
-#          git fetch --all
-#          GIT_REVNUM=$(git rev-list HEAD --count)
-#          FIX_REVNUM=$(git rev-list origin/master..HEAD --count)
-#          major=$(date -u +%y%j)
-#          VERSION_TAG="${major}.${GIT_REVNUM:-0}.${FIX_REVNUM:-0}.${{ env.BUILD_NUMBER }}"
-#          echo "VERSION_TAG=${VERSION_TAG}" >> $GITHUB_ENV
+      - name: Set Versiona
+        shell: pwsh
+        run: |
+          $runNumber = ${{ github.run_number }}
+          $commitHash = ${{ github.sha }}
+          $commitCount = (git rev-list --count HEAD)
+          $version = "1.1.$commitCount.$runNumber"
+          (Get-Content "Properties/AssemblyInfo.cs") -replace '0\.0\.0\.0', "$version" | Set-Content "Properties/AssemblyInfo.cs"
+          (Get-Content "Properties/AssemblyInfo.cs") -replace 'GIT_COMMIT', "$commitHash" | Set-Content "Properties/AssemblyInfo.cs"
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
