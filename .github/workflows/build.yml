@@ -68,6 +68,8 @@ jobs:
       - name: Draft release
         if: github.ref == 'refs/heads/master'
         uses: softprops/action-gh-release@c062e08bd532815e2082a85e87e3ef29c3e6d191  # v2.0.8
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           name: v${{ steps.version.outputs.VERSION }}
           tag_name: v${{ steps.version.outputs.VERSION }}
@@ -75,5 +77,4 @@ jobs:
           files: |
             artifacts/*
           draft: true
-
 
