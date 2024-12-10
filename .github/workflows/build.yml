@@ -35,7 +35,7 @@ jobs:
           $version = "1.1.$commitCount.$runNumber"
           $asipath = "BasicAuthenticationModule/Properties/AssemblyInfo.cs"
           echo "VERSION=$version" >> $env:VERSION
-          echo "COMMIT=$commitHash" >> $env:VERSION
+          echo "COMMIT=$commitHash" >> $env:COMMIT
           (Get-Content "$asipath") -replace '0\.0\.0\.0', "$version" | Set-Content "$asipath"
           (Get-Content "$asipath") -replace 'GIT_COMMIT', "$commitHash" | Set-Content "$asipath"
 
@@ -71,9 +71,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: v${{ steps.version.outputs.VERSION }}
-          tag_name: v${{ steps.version.outputs.VERSION }}
-          target_commitish: ${{ steps.version.outputs.COMMIT }}
+          name: v${{ env.VERSION }}
+          tag_name: v${{ env.VERSION }}
+          target_commitish: ${{ github.sha }}
           files: |
             artifacts/*
           draft: true
