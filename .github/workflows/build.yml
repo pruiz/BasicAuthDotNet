@@ -34,8 +34,8 @@ jobs:
           $commitCount = (git rev-list --count HEAD)
           $version = "1.1.$commitCount.$runNumber"
           $asipath = "BasicAuthenticationModule/Properties/AssemblyInfo.cs"
-          echo "VERSION=$version" >> $env:VERSION
-          echo "COMMIT=$commitHash" >> $env:COMMIT
+          echo "VERSION=$version" >> $env:GITHUB_ENV
+          echo "COMMIT=$commitHash" >> $env:GITHUB_ENV
           (Get-Content "$asipath") -replace '0\.0\.0\.0', "$version" | Set-Content "$asipath"
           (Get-Content "$asipath") -replace 'GIT_COMMIT', "$commitHash" | Set-Content "$asipath"
 
