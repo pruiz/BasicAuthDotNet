@@ -28,8 +28,8 @@ jobs:
       - name: Set Versiona
         shell: pwsh
         run: |
-          $runNumber = ${{ github.run_number }}
-          $commitHash = ${{ github.sha }}
+          $runNumber = "${{ github.run_number }}"
+          $commitHash = "${{ github.sha }}"
           $commitCount = (git rev-list --count HEAD)
           $version = "1.1.$commitCount.$runNumber"
           (Get-Content "Properties/AssemblyInfo.cs") -replace '0\.0\.0\.0', "$version" | Set-Content "Properties/AssemblyInfo.cs"
