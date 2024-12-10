@@ -124,7 +124,7 @@ namespace BasicAuthenticationModule
 
 					string userNameAndPassword = Encoding.Default.GetString(
 						Convert.FromBase64String(authHeader.Substring(6)));
-					string[] parts = userNameAndPassword.Split(':');
+					string[] parts = userNameAndPassword.Split(new[] { ':' }, 2);
 					IBasicUser bu = null;
 
 					if (!AuthProvider.IsValidUser(parts[0], parts[1], out bu))
